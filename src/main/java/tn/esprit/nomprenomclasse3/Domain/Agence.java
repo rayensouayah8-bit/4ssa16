@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,11 +24,11 @@ public class Agence {
     String adresse;
     String telephone;
 
-    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     @ToString.Exclude
-    List<Employe> employes;
+    List<Employe> employes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     @ToString.Exclude
-    List<Vehicule> vehicules;
+    List<Vehicule> vehicules = new ArrayList<>();
 }

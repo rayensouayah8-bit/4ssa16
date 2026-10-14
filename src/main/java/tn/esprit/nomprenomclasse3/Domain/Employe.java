@@ -22,7 +22,7 @@ public class Employe {
     @Enumerated(EnumType.STRING)
     RoleEmploye role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     Agence agence;
 }

@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ public class Equipement {
     long idEquipement;
     String libelle;
 
-    @ManyToMany(mappedBy = "equipements")
+    @ManyToMany(mappedBy = "equipements", fetch = FetchType.LAZY)
     @ToString.Exclude
-    List<Vehicule> vehicules;
+    Set<Vehicule> vehicules = new HashSet<>();
 }

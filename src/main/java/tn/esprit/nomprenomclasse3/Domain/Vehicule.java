@@ -5,7 +5,11 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -15,34 +19,39 @@ import java.util.List;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Vehicule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     long idVehicule;
-     String immatriculation;
-     String marque;
-     String modele;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   long idVehicule;
+   String immatriculation;
+   String marque;
+   String modele;
 
-     @Enumerated(value = EnumType.STRING)
-     CategorieVehicule categorie;
+   @Enumerated(value = EnumType.STRING)
+   CategorieVehicule categorie;
 
-     BigDecimal tarifJournalier;
+   BigDecimal tarifJournalier;
 
-    @Enumerated(value = EnumType.STRING)
-     StatutVehicule statut;
+   @Enumerated(value = EnumType.STRING)
+   StatutVehicule statut;
 
-    @ManyToOne
-    @ToString.Exclude
-    Agence agence;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @ToString.Exclude
+   Agence agence;
 
-    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    List<Maintenance> maintenances;
+   @OneToMany(mappedBy = "vehicule", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+   @ToString.Exclude
+   List<Maintenance> maintenances = new ArrayList<>();
 
-    @OneToMany(mappedBy = "vehicule")
-    @ToString.Exclude
-    List<Reservation> reservations;
+   @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY)
+   @ToString.Exclude
+   List<Reservation> reservations = new ArrayList<>();
 
-    @ManyToMany
-    @ToString.Exclude
-    List<Equipement> equipements;
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(
+           name = "vehicule_equipement",
+           joinColumns = @JoinColumn(name = "vehicule_id"),
+           inverseJoinColumns = @JoinColumn(name = "equipement_id")
+   )
+   @ToString.Exclude
+   Set<Equipement> equipements = new HashSet<>();
 }

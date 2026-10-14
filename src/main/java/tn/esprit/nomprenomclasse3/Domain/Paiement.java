@@ -25,7 +25,7 @@ public class Paiement {
     @Enumerated(EnumType.STRING)
     ModePaiement modePaiement;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     Contrat contrat;
 }

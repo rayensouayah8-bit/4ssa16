@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,11 +25,11 @@ public class Contrat {
     BigDecimal montantTotal;
     boolean valide;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
     Reservation reservation;
 
-    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
-    List<Paiement> paiements;
+    List<Paiement> paiements = new ArrayList<>();
 }
